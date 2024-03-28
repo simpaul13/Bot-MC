@@ -1,8 +1,6 @@
-// 
+// index.js
 const mineflayer = require('mineflayer');
-const { pathfinder } = require('mineflayer-pathfinder');
-
-// Import the function
+const { pathfinder, Movements, goals } = require('mineflayer-pathfinder');
 const chatProcess = require('./resource/process/chatProcess');
 
 const options = {
@@ -13,12 +11,18 @@ const options = {
 
 const bot = mineflayer.createBot(options);
 
-// Load pathfinder plugin
-bot.loadPlugin(pathfinder); 
-
-
 bot.once('spawn', () => {
-    
-    // pass the bot instance to chatProcess function
-    chatProcess(bot);
-})
+    console.log('Bot spawned');
+
+   
+
+    // Listen for chat messages
+    bot.on('chat', (username, message) => {
+        if (username !== bot.username) {
+
+            chatProcess(bot, username, message)
+            
+            // Add more message handling cases here if needed
+        }
+    });
+});
